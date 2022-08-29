@@ -1,0 +1,55 @@
+@import "./src/scss/variables";
+
+.root {
+  position: relative;
+  margin-left: 40px;
+}
+
+.search {
+  width: 250px;
+  padding: 5px 23px 5px 5px;
+  background-color: transparent;
+  border: 2px solid $primary;
+  border-radius: 5px;
+
+  transition: all .2s linear;
+
+  &:hover {
+    border: 2px solid $primary-hover;
+  }
+}
+
+.img {
+  position: absolute;
+  top: 5px;
+  right: 4px;
+  fill: $gray;
+  cursor: pointer;
+  transition: all 0.2s linear;
+
+  &:hover {
+    fill: $primary;
+  }
+}
+
+@media (max-width: 680px) {
+  .root {
+    order: 4;
+    width: 100%;
+    text-align: center;
+    margin: 5px 0 23px 0;
+  }
+}
+
+@media (max-width: 563px) {
+  .root {
+    margin: 12px 0 13px 0;
+  }
+
+  .search {
+    width: 200px;
+    padding: 2px 23px 2px 5px;
+  }
+}
+
+

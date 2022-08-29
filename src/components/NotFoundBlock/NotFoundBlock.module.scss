@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+  align-items: center;
+
+}
+
+.title {
+   font-size: 50px;
+   margin-bottom: 150px;
+ }
+
+.img {
+    border-radius: 50px;
+    overflow: hidden;
+  }
