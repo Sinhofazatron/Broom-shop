@@ -28,8 +28,6 @@ function Home() {
         search,
       })
     );
-
-    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -37,7 +35,11 @@ function Home() {
   }, [categoryId, sortType, sortOrder, searchValue, pageCount]);
 
   const skeleton = [...new Array(4)].map((_, i) => <Skeleton key={i} />);
-  const broom = items.map((obj) => <BroomItem {...obj} key={obj.id} />);
+  const broom = items
+    .filter((item) =>
+      item.title.toLowerCase().includes(searchValue.toLowerCase())
+    )
+    .map((obj) => <BroomItem {...obj} key={obj.id} />);
 
   return (
     <div className="broom__content">

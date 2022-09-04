@@ -1,11 +1,46 @@
 import { Link, useLocation } from "react-router-dom";
 import Search from "./Search/Search";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import Modal from "./Modal/Modal";
+import Login from "./Authentication/Login";
+import Registration from "./Authentication/Registration";
+import { useAuth } from "../hooks/use-auth";
+import { removeUser } from "../redux/slices/userSlice";
+import { clearItem } from "../redux/slices/cartSlice";
 
 function Header() {
+  const [messageAuth, setMessageAuth] = useState(false);
+  const [disableIconAuth, setDisableIconAuth] = useState(true);
+  const [popupAuth, setPopupAuth] = useState(false);
+  const [openPopupLogin, setOpenPopupLogin] = useState(false);
+  const [openPopupRegistration, setOpenPopupRegistration] = useState(false);
   const { totalPrice } = useSelector((state) => state.cart);
   const { itemsFavorite } = useSelector((state) => state.favorite);
   const { pathname } = useLocation();
+  const { isAuth, email } = useAuth();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isAuth) {
+      dispatch(clearItem());
+    }
+  }, [isAuth]);
+
+  useEffect(() => {
+    if (!isAuth) {
+      setTimeout(() => {
+        setMessageAuth(true);
+        setDisableIconAuth(false);
+      }, 2000);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (popupAuth) {
+      setMessageAuth(false);
+    }
+  }, [popupAuth]);
 
   return (
     <>
@@ -59,7 +94,7 @@ function Header() {
                   }
                 >
                   <svg
-                    height="32"
+                    height="30"
                     viewBox="0 -2 32 32"
                     xmlns="http://www.w3.org/2000/svg"
                   >
@@ -72,10 +107,15 @@ function Header() {
                   )}
                 </span>
               </Link>
-              <Link to="/cart">
+              <Link
+                className={!isAuth ? "header__goods-cart-link--disabled" : ""}
+                to="/cart"
+              >
                 <span
                   className={
-                    pathname !== "/cart"
+                    !isAuth
+                      ? "header__goods-cart--disabled"
+                      : pathname !== "/cart"
                       ? "header__goods-cart"
                       : "header__goods-cart--active"
                   }
@@ -130,20 +170,107 @@ function Header() {
                       strokeWidth="2"
                     />
                   </svg>
-                  <span className="header__goods-cart-count">
-                    <span className="header__cart-count-number">
-                      {totalPrice}
-                    </span>{" "}
-                    ₽
-                  </span>
+                  {totalPrice > 0 && (
+                    <span className="header__goods-cart-count">
+                      <span className="header__cart-count-number">
+                        {totalPrice}
+                      </span>{" "}
+                      ₽
+                    </span>
+                  )}
                 </span>
               </Link>
+              <div
+                onClick={() => setPopupAuth(!popupAuth)}
+                className={
+                  disableIconAuth
+                    ? "header__goods-authorization authorization--disabled"
+                    : "header__goods-authorization"
+                }
+              >
+                <span
+                  className={
+                    isAuth
+                      ? "header__goods-authorization-link--active"
+                      : "header__goods-authorization-link"
+                  }
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="28px"
+                    height="28px"
+                    viewBox="0 0 612 612"
+                  >
+                    <g>
+                      <path
+                        d="M331.685,425.378c-7.478,7.479-7.478,19.584,0,27.043c7.479,7.478,19.584,7.478,27.043,0l131.943-131.962
+				c3.979-3.979,5.681-9.276,5.412-14.479c0.269-5.221-1.434-10.499-5.412-14.477L358.728,159.56
+				c-7.459-7.478-19.584-7.478-27.043,0c-7.478,7.478-7.478,19.584,0,27.042l100.272,100.272H19.125C8.568,286.875,0,295.443,0,306
+				c0,10.557,8.568,19.125,19.125,19.125h412.832L331.685,425.378z M535.5,38.25H153c-42.247,0-76.5,34.253-76.5,76.5v76.5h38.25
+				v-76.5c0-21.114,17.117-38.25,38.25-38.25h382.5c21.133,0,38.25,17.136,38.25,38.25v382.5c0,21.114-17.117,38.25-38.25,38.25H153
+				c-21.133,0-38.25-17.117-38.25-38.25v-76.5H76.5v76.5c0,42.247,34.253,76.5,76.5,76.5h382.5c42.247,0,76.5-34.253,76.5-76.5
+				v-382.5C612,72.503,577.747,38.25,535.5,38.25z"
+                      />
+                    </g>
+                  </svg>
+                </span>
+                {messageAuth && (
+                  <span className="header__goods-authorization-message"></span>
+                )}
+
+                {popupAuth && (
+                  <div className="header__goods-authorization-popup">
+                    <p className="header__goods-authorization-popup-user">
+                      {!isAuth ? "Гость," : `Вы вошли как ${email}`}
+                    </p>
+                    {!isAuth ? (
+                      <div>
+                        <span
+                          onClick={() => setOpenPopupLogin(true)}
+                          className="header__goods-authorization-popup-login"
+                        >
+                          войдите
+                        </span>
+                        <p className="header__goods-authorization-popup-text">
+                          или
+                        </p>
+                        <span
+                          onClick={() => setOpenPopupRegistration(true)}
+                          className="header__goods-authorization-popup-signup"
+                        >
+                          зарегистрируйтесь
+                        </span>
+                      </div>
+                    ) : (
+                      <div>
+                        <span
+                          onClick={() => dispatch(removeUser())}
+                          className="header__goods-authorization-popup-logout"
+                        >
+                          выйти
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
             {pathname !== "/cart" && pathname !== "/favorite" && (
               <h1 className="broom__title">Волшебные мётлы Хогвартса</h1>
             )}
           </div>
         </div>
+        <Modal open={openPopupLogin} onClose={() => setOpenPopupLogin(false)}>
+          <Login onClose={() => setOpenPopupLogin(false)} />
+        </Modal>
+        <Modal
+          open={openPopupRegistration}
+          onClose={() => setOpenPopupRegistration(false)}
+        >
+          <Registration onClose={() => setOpenPopupRegistration(false)} />
+        </Modal>
       </header>
     </>
   );

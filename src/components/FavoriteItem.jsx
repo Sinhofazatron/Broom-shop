@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { removeItemToFavorite } from "../redux/slices/favoriteSlice";
 import { addItem } from "../redux/slices/cartSlice";
+import { useAuth } from "../hooks/use-auth";
 
 function FavoriteItem({ id, title, imageUrl, price, rating, description }) {
   const cartItem = useSelector((state) =>
     state.cart.items.find((obj) => obj.id === id)
   );
   const dispatch = useDispatch();
+  const { isAuth } = useAuth();
 
   const item = {
     id,
@@ -63,10 +65,12 @@ function FavoriteItem({ id, title, imageUrl, price, rating, description }) {
               Удалить
             </button>
             <button
-              disabled={idCart === id}
               onClick={addBroomToCart}
+              disabled={!isAuth || idCart === id}
               className={
-                idCart === id
+                !isAuth
+                  ? "favorite__add-buy-btn--disabled"
+                  : idCart === id
                   ? "broom__item-purchase-block-buy-cart favorite__add-buy-btn--active"
                   : "broom__item-purchase-block-buy-cart favorite__add-buy-btn"
               }

@@ -1,14 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import CartItem from "../components/CartItem";
 import { clearItem } from "../redux/slices/cartSlice";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import CartEmpty from "./CartEmpty";
+import { useAuth } from "../hooks/use-auth";
 
 function Cart() {
   const dispatch = useDispatch();
   const { totalPrice, items } = useSelector((state) => state.cart);
-
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const { isAuth } = useAuth();
 
   const onClickClear = () => {
     dispatch(clearItem());
@@ -18,7 +19,7 @@ function Cart() {
     return <CartEmpty />;
   }
 
-  return (
+  return isAuth ? (
     <div className="cart">
       <div>
         <div className="cart__top">
@@ -122,6 +123,8 @@ function Cart() {
         </div>
       </div>
     </div>
+  ) : (
+    <Navigate replace to="/" />
   );
 }
 

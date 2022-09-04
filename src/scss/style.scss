@@ -29,7 +29,8 @@
 
 
 ::-webkit-scrollbar {
-  width: 7px;
+  display: none;
+  //width: 7px;
 
   &-track {
     background: rgba($gray, 0.5);
@@ -95,17 +96,35 @@
   }
 
   &__goods {
-    flex: 0 0 165px;
+    flex: 0 0 202px;
     justify-content: center;
     text-align: center;
 
     &-cart {
       display: inline-block;
 
+      svg {
+        margin-bottom: 1px;
+      }
+
+      &--active svg {
+        margin-bottom: 1px;
+      }
+
       &-count {
+        width: 75px;
+        display: inline-block;
         vertical-align: super;
         margin-left: 5px;
         color: $black;
+      }
+
+      &-link--disabled {
+        pointer-events: none;
+
+        svg {
+          margin-bottom: 1px;
+        }
       }
     }
 
@@ -119,6 +138,10 @@
       transition: all .2s linear;
     }
 
+    &-cart--disabled path {
+      stroke: $gray;
+    }
+
     &-cart:hover path {
       stroke: $primary-hover;
     }
@@ -128,9 +151,17 @@
       position: relative;
       margin-right: 15px;
 
+      svg {
+        margin-bottom: 2px
+      }
+
       &--active {
         position: relative;
         margin-right: 15px;
+
+        svg {
+          margin-bottom: 2px
+        }
       }
 
       &-count {
@@ -157,10 +188,121 @@
       }
     }
 
-  }
+    &-authorization {
+      position: relative;
+      display: inline-block;
+      margin-left: 17px;
 
+      &-link svg{
+        fill: $primary;
+        transition: all .2s linear;
+        cursor: pointer;
+      }
+
+      &-link:hover svg{
+        fill: $primary-hover;
+      }
+      &-link--active svg{
+        fill: $primary-hover;
+        cursor: pointer;
+      }
+
+      &-message {
+        text-align: center;
+
+        &:after {
+          position: absolute;
+          content: "";
+          top: 39px;
+          left: 6px;
+          width: 0;
+          height: 0;
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-bottom: 15px solid white;
+        }
+
+        &:before {
+          position: absolute;
+          content: "Войдите или зарегистрируйтесь на сайте для покупки метлы";
+          top: 50px;
+          right: -1px;
+          display: inline;
+          font-size: 12px;
+          line-height: 15px;
+          background-color: #FFFFFF;
+          color: $black;
+          border-radius: 12px;
+          padding: 5px;
+        }
+      }
+
+      &-popup {
+          position: absolute;
+          content: "";
+          top: 46px;
+          right: -45px;
+          background-color: #FFFFFF;
+          font-size: 12px;
+          border-radius: 10px;
+          padding: 7px;
+
+          &:after {
+            position: absolute;
+            content: "";
+            top: -14px;
+            left: 55px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid white;
+          }
+
+          &-user {
+            min-width: 108px;
+            max-width: 110px;
+            margin-bottom: 6px;
+          }
+
+          &-login,
+          &-signup {
+            line-height: 5px;
+            color: $primary-hover;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
+          &-text {
+            line-height: 12px;
+          }
+
+          &-logout {
+            display: inline-block;
+            width: 50px;
+            line-height: 5px;
+            color: $primary-hover;
+            cursor: pointer;
+            margin-top: 7px;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
+
+
+    }
+  }
 }
 
+.authorization--disabled {
+  pointer-events: none;
+}
 
 /* ========== MAIN ========== */
 
@@ -234,7 +376,7 @@
 }
 
 .broom__content {
-  min-height: 81.4vh;
+  min-height: 78.9vh;
   //min-height: 89.9vh;
   display: flex;
   flex-flow: column;
@@ -365,6 +507,14 @@
 
       &:hover {
         background-color: rgba($primary, 0.1);
+      }
+
+      &--disabled {
+        border: 1px solid $black;
+        background-color: rgba($gray, 0.7);
+        border-radius: 12px;
+        color: #FFFFFF;
+        padding: 7px;
       }
     }
   }
@@ -907,6 +1057,14 @@
         background-color: rgba($primary-hover, 0.1);
       }
     }
+
+    &--disabled {
+      border: 1px solid $black;
+      background-color: rgba($gray, 0.7);
+      border-radius: 12px;
+      color: #FFFFFF;
+      padding: 5px 20px;
+    }
   }
 
   &__broom-item-title {
@@ -1150,9 +1308,18 @@
   }
 
   .header__goods-favorite {
+
     svg {
       height: 29px;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
+    }
+  }
+
+  .header__goods-favorite--active {
+
+    svg {
+      height: 29px;
+      margin-bottom: 3px;
     }
   }
 
@@ -1201,6 +1368,24 @@
     width: 200px;
     height: 200px;
   }
+
+  .header__goods-cart-count {
+    display: none;
+  }
+
+  .header__goods-authorization {
+    margin-left: 11px;
+  }
+
+  .header__goods-authorization-popup {
+    text-align: center;
+    top: 45px;
+    right: -7px;
+
+    &:after {
+      left: 93px;
+    }
+  }
 }
 
 @media (max-width: 432px) {
@@ -1223,6 +1408,10 @@
 
   .cart-btn {
     font-size: 13px;
+
+    &--disabled {
+      font-size: 13px;
+    }
   }
 
   .favorite__bottom-buttons-back-btn {
