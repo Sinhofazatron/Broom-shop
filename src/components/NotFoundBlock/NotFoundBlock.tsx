@@ -1,9 +1,14 @@
 import styles from "./NotFoundBlock.module.scss";
+import { FC } from "react";
 
-function NotFoundBlock() {
+type NotFoundBlockProps = {
+  text: string;
+};
+
+const NotFoundBlock: FC<NotFoundBlockProps> = ({ text }) => {
   return (
     <div className={styles.root}>
-      <h1 className={styles.title}>Страница не найдена!</h1>
+      <h1 className={styles.title}>{text}</h1>
       <img
         className={styles.img}
         width={400}
@@ -12,6 +17,6 @@ function NotFoundBlock() {
       />
     </div>
   );
-}
+};
 
 export default NotFoundBlock;

@@ -1,4 +1,6 @@
-function FavoriteEmpty() {
+import { FC } from "react";
+
+const FavoriteEmpty: FC = () => {
   return (
     <div className="goods__empty">
       <h1 className="goods__empty-title">В избранном ничего нет!</h1>
@@ -12,6 +14,6 @@ function FavoriteEmpty() {
       </div>
     </div>
   );
-}
+};
 
 export default FavoriteEmpty;

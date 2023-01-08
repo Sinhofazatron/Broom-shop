@@ -4,11 +4,16 @@ import { clearItem } from "../redux/slices/cartSlice";
 import { Link, Navigate } from "react-router-dom";
 import CartEmpty from "./CartEmpty";
 import { useAuth } from "../hooks/use-auth";
+import { RootState } from "../redux/store";
+import { FC } from "react";
 
-function Cart() {
+const Cart: FC = () => {
   const dispatch = useDispatch();
-  const { totalPrice, items } = useSelector((state) => state.cart);
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const { totalPrice, items } = useSelector((state: RootState) => state.cart);
+  const totalCount = items.reduce(
+    (sum: number, item: any) => sum + item.count,
+    0
+  );
   const { isAuth } = useAuth();
 
   const onClickClear = () => {
@@ -85,7 +90,7 @@ function Cart() {
           </span>
           <span className="cart__bottom-price">
             Сумма заказа:{" "}
-            <b className="cart__bottom-price-number">{totalPrice}</b> ₽
+            <b className="cart__bottom-price-number">{totalPrice} </b>
           </span>
         </div>
         <div className="cart__bottom-buttons">
@@ -114,7 +119,7 @@ function Cart() {
           </Link>
           <div className="cart__bottom-buy">
             <button
-              disabled={totalPrice}
+              disabled={!totalPrice}
               className={totalPrice > 0 ? "cart-btn" : "cart-btn--disabled"}
             >
               Оплатить сейчас
@@ -126,6 +131,6 @@ function Cart() {
   ) : (
     <Navigate replace to="/" />
   );
-}
+};
 
 export default Cart;

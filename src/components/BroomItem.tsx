@@ -1,14 +1,25 @@
 import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "../redux/slices/cartSlice";
+import {addItem, CartItemArgs} from "../redux/slices/cartSlice";
 import {
   addItemToFavorite,
   removeItemToFavorite,
 } from "../redux/slices/favoriteSlice";
-import { useState } from "react";
+import { FC, useState } from "react";
 import Modal from "./Modal/Modal";
 import { useAuth } from "../hooks/use-auth";
+import { AppDispatch, RootState } from "../redux/store";
 
-function BroomItem({
+type BroomItemProps = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  price: number;
+  rating: number;
+  subDescription: string;
+};
+
+const BroomItem: FC<BroomItemProps> = ({
   id,
   title,
   description,
@@ -16,17 +27,17 @@ function BroomItem({
   price,
   rating,
   subDescription,
-}) {
-  const dispatch = useDispatch();
-  const cartItem = useSelector((state) =>
+}) => {
+  const dispatch: AppDispatch = useDispatch();
+  const cartItem = useSelector((state: RootState) =>
     state.cart.items.find((obj) => obj.id === id)
   );
-  const favoriteItem = useSelector((state) =>
+  const favoriteItem = useSelector((state: RootState) =>
     state.favorite.itemsFavorite.find((obj) => obj.id === id)
   );
   const { isAuth } = useAuth();
 
-  const [openPopupBroom, setOpenPopupBroom] = useState(false);
+  const [openPopupBroom, setOpenPopupBroom] = useState<boolean>(false);
 
   const item = {
     id,
@@ -37,7 +48,7 @@ function BroomItem({
     rating,
   };
 
-  const img = (imgName) => {
+  const img = (imgName: string) => {
     return require(`../assets/img/goods/${imgName}`);
   };
 
@@ -45,7 +56,7 @@ function BroomItem({
   const addedCountFavorite = favoriteItem ? favoriteItem.id : 0;
 
   const addBroomToCart = () => {
-    dispatch(addItem(item));
+    dispatch(addItem(item as CartItemArgs));
   };
 
   const addBroomToFavorite = () => {
@@ -80,7 +91,7 @@ function BroomItem({
                 alt="rating"
               />
             </div>
-            <span className="broom__item-purchase-block-price">{price} ₽</span>
+            <span className="broom__item-purchase-block-price">{price} </span>
           </div>
           <div className="broom__item-purchase-block-buy">
             <button
@@ -124,6 +135,6 @@ function BroomItem({
       </Modal>
     </div>
   );
-}
+};
 
 export default BroomItem;

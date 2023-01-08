@@ -1,11 +1,12 @@
 import NotFoundBlock from "../components/NotFoundBlock/NotFoundBlock";
+import { FC } from "react";
 
-function PageNotFound() {
+const PageNotFound: FC = () => {
   return (
     <div>
-      <NotFoundBlock />
+      <NotFoundBlock text={"Страница не найдена!"} />
     </div>
   );
-}
+};
 
 export default PageNotFound;

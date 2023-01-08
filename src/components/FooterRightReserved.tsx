@@ -1,4 +1,6 @@
-function FooterRightReserved() {
+import { FC } from "react";
+
+const FooterRightReserved: FC = () => {
   return (
     <div className="footer__rights-reserved">
       <p className="footer__rights-reserved-text">
@@ -6,6 +8,6 @@ function FooterRightReserved() {
       </p>
     </div>
   );
-}
+};
 
 export default FooterRightReserved;

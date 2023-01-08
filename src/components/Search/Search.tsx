@@ -1,19 +1,22 @@
 import styles from "./Search.module.scss";
 import debounce from "lodash.debounce";
-import { useCallback, useRef, useState } from "react";
+import React, { FC, useCallback, useRef, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setPageCount, setSearchValue } from "../../redux/slices/filterSlice";
+import { RootState } from "../../redux/store";
 
-function Search() {
+const Search: FC = () => {
   const [value, setValue] = useState("");
-  const searchValue = useSelector((state) => state.filter.searchValue);
+  const searchValue = useSelector(
+    (state: RootState) => state.filter.searchValue
+  );
 
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
 
-  const onChangeSearch = (event) => {
+  const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setPageCount(1));
     updateSearchValue(event.target.value);
     setValue(event.target.value);
@@ -29,12 +32,12 @@ function Search() {
   const onClickClear = () => {
     dispatch(setSearchValue(""));
     setValue("");
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (
     <div className={styles.root}>
-      <form>
+      <form className={styles.form}>
         <input
           ref={inputRef}
           onChange={onChangeSearch}
@@ -58,6 +61,6 @@ function Search() {
       </form>
     </div>
   );
-}
+};
 
 export default Search;

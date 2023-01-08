@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId, setPageCount } from "../redux/slices/filterSlice";
+import { AppDispatch, RootState } from "../redux/store";
+import { FC } from "react";
 
 const categories = [
   "Все",
@@ -9,11 +11,12 @@ const categories = [
   "Для профессионалов",
 ];
 
-function Categories() {
-  const dispatch = useDispatch();
-  const { categoryId } = useSelector((state) => state.filter);
+const Categories: FC = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const { categoryId } = useSelector((state: RootState) => state.filter);
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: any) => {
+    dispatch(setPageCount(1));
     dispatch(setCategoryId(id));
   };
 
@@ -39,6 +42,6 @@ function Categories() {
       </select>
     </div>
   );
-}
+};
 
 export default Categories;

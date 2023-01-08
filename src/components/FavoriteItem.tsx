@@ -1,10 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
 import { removeItemToFavorite } from "../redux/slices/favoriteSlice";
-import { addItem } from "../redux/slices/cartSlice";
+import {addItem, CartItemArgs} from "../redux/slices/cartSlice";
 import { useAuth } from "../hooks/use-auth";
+import { FC } from "react";
+import { RootState } from "../redux/store";
 
-function FavoriteItem({ id, title, imageUrl, price, rating, description }) {
-  const cartItem = useSelector((state) =>
+type FavoriteItemProps = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  price: number;
+  rating: number;
+};
+
+const FavoriteItem: FC<FavoriteItemProps> = ({
+  id,
+  title,
+  imageUrl,
+  price,
+  rating,
+  description,
+}) => {
+  const cartItem = useSelector((state: RootState) =>
     state.cart.items.find((obj) => obj.id === id)
   );
   const dispatch = useDispatch();
@@ -22,14 +40,14 @@ function FavoriteItem({ id, title, imageUrl, price, rating, description }) {
   const idCart = cartItem ? cartItem.id : 0;
 
   const addBroomToCart = () => {
-    dispatch(addItem(item));
+    dispatch(addItem(item as CartItemArgs));
   };
 
   const onClickDelete = () => {
     dispatch(removeItemToFavorite(id));
   };
 
-  const img = (imgName) => {
+  const imgRequire = (imgName: string) => {
     return require(`../assets/img/goods/${imgName}`);
   };
 
@@ -38,7 +56,7 @@ function FavoriteItem({ id, title, imageUrl, price, rating, description }) {
       <li className="broom__item">
         <img
           className="broom__item-img favorite__broom-item-img"
-          src={img(imageUrl)}
+          src={imgRequire(imageUrl)}
           alt="broom"
         />
         <p className="broom__item-title favorite__broom-item-title">{title}</p>
@@ -55,7 +73,7 @@ function FavoriteItem({ id, title, imageUrl, price, rating, description }) {
                 alt="rating"
               />
             </div>
-            <span className="broom__item-purchase-block-price">{price} ₽</span>
+            <span className="broom__item-purchase-block-price">{price} </span>
           </div>
           <div className="broom__item-purchase-block-buy">
             <button
@@ -82,6 +100,6 @@ function FavoriteItem({ id, title, imageUrl, price, rating, description }) {
       </li>
     </>
   );
-}
+};
 
 export default FavoriteItem;

@@ -1,25 +1,27 @@
 import { Link, useLocation } from "react-router-dom";
 import Search from "./Search/Search";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Modal from "./Modal/Modal";
 import Login from "./Authentication/Login";
 import Registration from "./Authentication/Registration";
 import { useAuth } from "../hooks/use-auth";
 import { removeUser } from "../redux/slices/userSlice";
 import { clearItem } from "../redux/slices/cartSlice";
+import { AppDispatch, RootState } from "../redux/store";
 
-function Header() {
-  const [messageAuth, setMessageAuth] = useState(false);
-  const [disableIconAuth, setDisableIconAuth] = useState(true);
-  const [popupAuth, setPopupAuth] = useState(false);
-  const [openPopupLogin, setOpenPopupLogin] = useState(false);
-  const [openPopupRegistration, setOpenPopupRegistration] = useState(false);
-  const { totalPrice } = useSelector((state) => state.cart);
-  const { itemsFavorite } = useSelector((state) => state.favorite);
+const Header: FC = () => {
+  const [messageAuth, setMessageAuth] = useState<boolean>(false);
+  const [disableIconAuth, setDisableIconAuth] = useState<boolean>(true);
+  const [popupAuth, setPopupAuth] = useState<boolean>(false);
+  const [openPopupLogin, setOpenPopupLogin] = useState<boolean>(false);
+  const [openPopupRegistration, setOpenPopupRegistration] =
+    useState<boolean>(false);
+  const { totalPrice } = useSelector((state: RootState) => state.cart);
+  const { itemsFavorite } = useSelector((state: RootState) => state.favorite);
   const { pathname } = useLocation();
   const { isAuth, email } = useAuth();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     if (!isAuth) {
@@ -175,7 +177,6 @@ function Header() {
                       <span className="header__cart-count-number">
                         {totalPrice}
                       </span>{" "}
-                      ₽
                     </span>
                   )}
                 </span>
@@ -246,7 +247,7 @@ function Header() {
                     ) : (
                       <div>
                         <span
-                          onClick={() => dispatch(removeUser())}
+                          onClick={() => dispatch(removeUser([]))}
                           className="header__goods-authorization-popup-logout"
                         >
                           выйти
@@ -274,6 +275,6 @@ function Header() {
       </header>
     </>
   );
-}
+};
 
 export default Header;

@@ -1,12 +1,12 @@
 .root {
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 60px;
   align-items: center;
-
 }
 
 .title {
+  text-align: center;
    font-size: 50px;
    margin-bottom: 150px;
  }
@@ -14,4 +14,35 @@
 .img {
     border-radius: 50px;
     overflow: hidden;
+}
+
+@media (max-width: 895px) {
+  .title {
+    font-size: 41px;
   }
+}
+
+@media (max-width: 600px) {
+  .root {
+    flex-direction: column;
+    margin-top: -5px;
+  }
+
+  .title {
+    margin-bottom: 35px;
+  }
+}
+
+@media (max-width: 435px) {
+  .root {
+    margin-top: 37px;
+  }
+
+  .title {
+    font-size: 33px;
+  }
+
+  .img {
+    width: 300px;
+  }
+}

@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import styles from "./Form.module.scss";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+type FormProps = {
+  title: string;
+  btnTitle: string;
+  handleClick: (email: string, pass: string) => void;
+};
+
+type ShippingFields = {
+  emails: string;
+  password: string;
+};
 
 const SchemaValidation = yup
   .object({
@@ -17,21 +28,21 @@ const SchemaValidation = yup
   })
   .required();
 
-const Form = ({ handleClick, title, btnTitle }) => {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+const Form: FC<FormProps> = ({ handleClick, title, btnTitle }) => {
+  const [email, setEmail] = useState<string>("");
+  const [pass, setPass] = useState<string>("");
 
   const {
     register,
     handleSubmit,
     formState,
     formState: { errors },
-  } = useForm({
+  } = useForm<ShippingFields>({
     mode: "onChange",
     resolver: yupResolver(SchemaValidation),
   });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit: SubmitHandler<ShippingFields> = (data) => console.log(data);
 
   return (
     <div className={styles.root}>

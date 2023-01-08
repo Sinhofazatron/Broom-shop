@@ -1,7 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setSort, setSortOrder } from "../redux/slices/filterSlice";
+import { RootState } from "../redux/store";
 
-const sortList = [
+type SortItem = {
+  name: string;
+  sortProperty: string;
+};
+
+const sortList: SortItem[] = [
   { name: "По актуальности", sortProperty: "id" },
   { name: "По популярности", sortProperty: "rating" },
   { name: "По цене", sortProperty: "price" },
@@ -9,10 +15,12 @@ const sortList = [
 ];
 
 function Sort() {
-  const { sortType, sortOrder } = useSelector((state) => state.filter);
+  const { sortType, sortOrder } = useSelector(
+    (state: RootState) => state.filter
+  );
   const dispatch = useDispatch();
 
-  const onChangeSort = (id) => {
+  const onChangeSort = (id: string) => {
     dispatch(setSort(id));
   };
 

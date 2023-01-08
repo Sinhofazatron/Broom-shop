@@ -1,30 +1,28 @@
 import styles from "./Modal.module.scss";
-import { useEffect, useMemo } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
-import {
-  disableBodyScroll,
-  enableBodyScroll,
-  clearAllBodyScrollLocks,
-} from "body-scroll-lock";
 
 const modalRootElement = document.querySelector("#modal");
 
-function Modal(props) {
+type ModalProps = {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+};
+
+const Modal: FC<ModalProps> = (props) => {
   const element = useMemo(() => document.createElement("div"), []);
 
   useEffect(() => {
     if (props.open) {
-      // disableBodyScroll(modalRootElement);
-      modalRootElement.appendChild(element);
+      modalRootElement?.appendChild(element);
       document.body.style.overflowY = "hidden";
       // document.body.style.paddingRight = "7px";
 
       return () => {
-        // clearAllBodyScrollLocks();
-        modalRootElement.removeChild(element);
+        modalRootElement?.removeChild(element);
       };
     } else {
-      // enableBodyScroll(modalRootElement);
       document.body.style.overflowY = "scroll";
       // document.body.style.paddingRight = "0";
     }
@@ -79,6 +77,6 @@ function Modal(props) {
     );
   }
   return null;
-}
+};
 
 export default Modal;

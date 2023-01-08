@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {CartItemArgs} from "./cartSlice";
 
-const initialState = {
+interface FavoriteSliceState {
+  itemsFavorite: CartItemArgs[],
+}
+
+const initialState: FavoriteSliceState = {
   itemsFavorite: [],
 };
 

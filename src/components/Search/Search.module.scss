@@ -5,6 +5,11 @@
   margin-left: 40px;
 }
 
+.form {
+  position: relative;
+  display: inline-block;
+}
+
 .search {
   width: 250px;
   padding: 5px 23px 5px 5px;
@@ -49,6 +54,10 @@
   .search {
     width: 200px;
     padding: 2px 23px 2px 5px;
+  }
+
+  .img {
+    top: -3px;
   }
 }
 

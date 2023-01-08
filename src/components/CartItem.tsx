@@ -1,32 +1,54 @@
 import { useDispatch, useSelector } from "react-redux";
-import { minusItem, removeItem, addItem } from "../redux/slices/cartSlice";
+import {minusItem, removeItem, addItem, CartItemArgs} from "../redux/slices/cartSlice";
+import { FC } from "react";
+import {AppDispatch, RootState} from "../redux/store";
 
-function CartItem({ id, title, description, imageUrl, price, count }) {
-  const cartItem = useSelector((state) =>
+type CartItemProps = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  price: number;
+  count: number;
+};
+
+const CartItem: FC<CartItemProps> = ({
+  id,
+  title,
+  description,
+  imageUrl,
+  price,
+  count,
+}) => {
+  const cartItem = useSelector((state: RootState) =>
     state.cart.items.find((obj) => obj.id === id)
   );
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const onClickPlus = () => {
-    dispatch(addItem({ id }));
+    dispatch(addItem({ id } as CartItemArgs));
   };
 
   const onClickMinus = () => {
-    dispatch(minusItem({ id }));
+    dispatch(minusItem({ id } as CartItemArgs));
   };
 
   const onClickRemove = () => {
     dispatch(removeItem(id));
   };
 
-  const img = (imgName) => {
+  const imgRequire = (imgName: string) => {
     return require(`../assets/img/goods/${imgName}`);
   };
 
   return (
     <div className="cart__item">
       <div className="cart__item-img">
-        <img className="pizza-block__image" src={img(imageUrl)} alt="Broom" />
+        <img
+          className="pizza-block__image"
+          src={imgRequire(imageUrl)}
+          alt="Broom"
+        />
       </div>
       <div className="cart__item-info">
         <p className="cart__item-info-title">{title}</p>
@@ -34,7 +56,7 @@ function CartItem({ id, title, description, imageUrl, price, count }) {
       </div>
       <div className="cart__item-count">
         <div className="cart__item-count-minus">
-          {cartItem.count ? (
+          {cartItem?.count ? (
             <button
               onClick={onClickMinus}
               className="cart__item-count-minus-text"
@@ -53,8 +75,8 @@ function CartItem({ id, title, description, imageUrl, price, count }) {
         </div>
       </div>
       <div className="cart__item-price">
-        <b className="cart__item-price-count">{price * count}</b>{" "}
-        <span className="cart__item-price-count-rub"> ₽</span>
+        <b className="cart__item-price-count">{price * count} </b>{" "}
+        <span className="cart__item-price-count-rub"></span>
       </div>
       <div className="cart__item-remove">
         <svg
@@ -71,5 +93,5 @@ function CartItem({ id, title, description, imageUrl, price, count }) {
       </div>
     </div>
   );
-}
+};
 export default CartItem;

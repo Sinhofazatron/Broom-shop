@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearItems } from "../redux/slices/favoriteSlice";
 import FavoriteEmpty from "./FavoriteEmpty";
+import { FC } from "react";
+import { RootState } from "../redux/store";
 
-function Favorite() {
-  const { itemsFavorite } = useSelector((state) => state.favorite);
+const Favorite: FC = () => {
+  const { itemsFavorite } = useSelector((state: RootState) => state.favorite);
   const dispatch = useDispatch();
 
   const onClickClear = () => {
-    dispatch(clearItems());
+    dispatch(clearItems([]));
   };
 
   if (!itemsFavorite.length) {
@@ -92,6 +94,6 @@ function Favorite() {
       </Link>
     </div>
   );
-}
+};
 
 export default Favorite;

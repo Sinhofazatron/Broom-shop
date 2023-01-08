@@ -1,11 +1,12 @@
 @import "normalize";
 @import "variables";
-@import url("https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Henny+Penny&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&display=swap");
 
 
 .wrapper {
   //font-family: 'Henny Penny', cursive;
-  font-family: 'Bubblegum Sans', cursive;
+  //font-family: 'Bubblegum Sans', cursive;
+  font-family: 'David Libre', serif;
   background-image: url("../assets/img/bg-1.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -166,8 +167,8 @@
 
       &-count {
         position: absolute;
-        top: -6px;
-        left: 50%;
+        top: -7px;
+        left: 53%;
         transform: translateX(-50%);
         font-size: 12px;
         color: $black;
@@ -251,7 +252,7 @@
             position: absolute;
             content: "";
             top: -14px;
-            left: 55px;
+            right: 48px;
             width: 0;
             height: 0;
             border-left: 10px solid transparent;
@@ -260,6 +261,7 @@
           }
 
           &-user {
+            display: inline-table;
             min-width: 108px;
             max-width: 110px;
             margin-bottom: 6px;
@@ -312,7 +314,7 @@
 }
 
 .broom__title {
-  font-family: 'Henny Penny', cursive;
+
   width: 100%;
   font-size: 36px;
   margin: 27px 0 20px 10px;
@@ -376,7 +378,7 @@
 }
 
 .broom__content {
-  min-height: 78.9vh;
+  min-height: 81.8vh;
   //min-height: 89.9vh;
   display: flex;
   flex-flow: column;
@@ -1089,7 +1091,8 @@
 }
 
 .broom__modal-title {
-  font-family: 'Bubblegum Sans', cursive;
+  font-family: 'David Libre', serif;
+  text-align: center;
   max-width: 315px;
   font-weight: 700;
   font-size: 18px;
@@ -1099,7 +1102,8 @@
 }
 
 .broom__modal-sub-description {
-  font-family: 'Bubblegum Sans', cursive;
+  font-family: 'David Libre', serif;
+  text-align: center;
   max-width: 315px;
   font-size: 14px;
   color: $black;
@@ -1455,8 +1459,12 @@
   }
 }
 
-
-
+.cart__item-price-count-rub:after,
+.cart__bottom-price-number:after,
+.header__goods-cart-count:after,
+.broom__item-purchase-block-price:after {
+  content: "\20BD";
+}
 
 
 

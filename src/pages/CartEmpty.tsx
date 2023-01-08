@@ -1,4 +1,6 @@
-function CartEmpty() {
+import { FC } from "react";
+
+const CartEmpty: FC = () => {
   return (
     <div className="goods__empty">
       <h1 className="goods__empty-title">В корзине ничего нет!</h1>
@@ -12,6 +14,6 @@ function CartEmpty() {
       </div>
     </div>
   );
-}
+};
 
 export default CartEmpty;
